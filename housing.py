@@ -26,8 +26,10 @@ def preprocess_data(df):
     mean_longitude, mean_latitude = np.mean(longitude), np.mean(latitude)
     income_mean = median_income.mean()
     income_std  = median_income.std()
+    ocean_proximity = df['ocean_proximity'].values
     
     Y = df['median_house_value'].values.reshape(-1, 1)
+    Y = Y * 1.56 # Scaling by average house price increase over past 8 years
     Y_mean = Y.mean()
     Y_std = Y.std()
     norm_stats = {
@@ -132,11 +134,11 @@ def main():
     
     # Evaluation
     model.eval()
-    test_lon = -119.01574700
-    test_lat = 34.23135800
-    avg_income = 109.39
+    test_lon = -122.42183900
+    test_lat = 37.77378200
+    avg_income = 96.421
     price = predict_price(model, test_lat, test_lon, avg_income, stats=norm_stats)
-    print("Estimated price:", price)
+    print("Estimated price:", price.floor())
 
 
 if __name__ == "__main__":
