@@ -49,9 +49,9 @@ def main():
     print(f"Using device: {device}")
     
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.003)
+    optimizer = optim.Adam(model.parameters(), lr=0.005)
     
-    for epoch in range(200):
+    for epoch in range(100):
         epoch_loss = 0.0
         for batch_X, batch_Y in dataloader:
             batch_X = batch_X.to(device)
@@ -70,6 +70,10 @@ def main():
         print(f"Epoch {epoch+1}, Loss: {epoch_loss/len(dataloader)}")
 
     pu.model_eval(model, val_dataset, device, price_mean, price_std)
+    
+    # save = input("Save model? (y/n):")
+    # if save.strip().lower() == 'y':
+    #     pu.save_model(model, "housing_model.pth")
 
 
     
