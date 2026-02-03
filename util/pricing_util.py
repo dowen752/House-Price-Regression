@@ -86,15 +86,20 @@ def model_eval(model, val_loader, device, price_mean, price_std):
     preds = torch.cat(preds)
     actuals = torch.cat(actuals)
     
-    mse_norm = nn.MSELoss()(preds, actuals).item()
-    rmse_norm = np.sqrt(mse_norm)
-    
+    # Converting to real prices
     preds_real = preds * price_std + price_mean
     actuals_real = actuals * price_std + price_mean
-    rmse_real = nn.MSELoss()(preds_real, actuals_real).sqrt().item()
-    
-    print(f"Validation RMSE (normalized): {rmse_norm}")
-    print(f"Validation RMSE (real): {rmse_real}")
+
+    # RMSE in dollars
+    rmse = torch.sqrt(torch.mean((preds_real - actuals_real) ** 2)).item()
+
+    # R^2
+    ss_res = torch.sum((preds_real - actuals_real) ** 2)
+    ss_tot = torch.sum((actuals_real - actuals_real.mean()) ** 2)
+    r2 = 1 - ss_res / ss_tot
+
+    print(f"RMSE: ${rmse:,.0f}")
+    print(f"R²: {r2:.3f}")
 
 # Extracting data from csv
 def extracting_data(df):
