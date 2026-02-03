@@ -5,7 +5,7 @@ import json
 import requests
 import time
 
-# Keeping for reference, but deprecated; dataset not sufficient
+# Keeping for personal reference, but deprecated; dataset not sufficient
 class rentcast_utils:
     
     # API_KEY = ""
