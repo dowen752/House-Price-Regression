@@ -86,20 +86,19 @@ def model_eval(model, val_loader, device, price_mean, price_std):
     preds = torch.cat(preds)
     actuals = torch.cat(actuals)
     
-    # Converting to real prices
-    preds_real = preds * price_std + price_mean
-    actuals_real = actuals * price_std + price_mean
-
-    # RMSE in dollars
-    rmse = torch.sqrt(torch.mean((preds_real - actuals_real) ** 2)).item()
+    # Converting to log1p space
+    preds_log = preds * price_std + price_mean
+    actuals_log = actuals * price_std + price_mean
 
     # R^2
-    ss_res = torch.sum((preds_real - actuals_real) ** 2)
-    ss_tot = torch.sum((actuals_real - actuals_real.mean()) ** 2)
-    r2 = 1 - ss_res / ss_tot
+    r2 = 1 - torch.sum((preds_log - actuals_log) ** 2) / torch.sum((actuals_log - actuals_log.mean()) ** 2)
 
-    print(f"RMSE: ${rmse:,.0f}")
-    print(f"R²: {r2:.3f}")
+    # Convert to dollars for RMSE
+    rmse_dollars = torch.sqrt(torch.mean((torch.expm1(preds_log) - torch.expm1(actuals_log)) ** 2))
+
+    print(f"RMSE ($): {rmse_dollars.item():,.0f}")
+    print(f"R^2 (log1p): {r2.item():.3f}")
+    
 
 # Extracting data from csv
 def extracting_data(df):

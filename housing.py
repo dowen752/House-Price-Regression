@@ -71,9 +71,9 @@ def main():
 
     pu.model_eval(model, val_dataset, device, price_mean, price_std)
     
-    # save = input("Save model? (y/n):")
-    # if save.strip().lower() == 'y':
-    #     pu.save_model(model, "housing_model.pth")
+    save = input("Save model? (y/n):")
+    if save.strip().lower() == 'y':
+        pu.save_model(model, "housing_model.pth")
 
 
     
