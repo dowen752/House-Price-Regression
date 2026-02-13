@@ -22,7 +22,7 @@ def train_model(model, dataloader, criterion, optimizer, device, val_dataset, st
         best_rmse = cpkt.get("rmse", float("inf"))
         print(f"Loaded previous best RMSE: {best_rmse:,.0f}")
     
-    for epoch in range(150):
+    for epoch in range(300):
         print(f"Epoch {epoch+1}")
         epoch_loss = 0.0
         for batch_X, batch_Y in dataloader:
