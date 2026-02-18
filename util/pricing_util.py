@@ -6,9 +6,6 @@ import os
 from haversine import haversine, Unit
 
 
-DF_PRICE_MEAN = 532439.9113795687
-DF_PRICE_STD = 1574887.0879233533
-
 
 # Main training loop
 def train_model(model, dataloader, criterion, optimizer, device, val_dataset, stats):
@@ -22,7 +19,7 @@ def train_model(model, dataloader, criterion, optimizer, device, val_dataset, st
         best_rmse = cpkt.get("rmse", float("inf"))
         print(f"Loaded previous best RMSE: {best_rmse:,.0f}")
     
-    for epoch in range(300):
+    for epoch in range(500):
         print(f"Epoch {epoch+1}")
         epoch_loss = 0.0
         for batch_X, batch_Y in dataloader:

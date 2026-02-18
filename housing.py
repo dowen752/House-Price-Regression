@@ -8,7 +8,6 @@ from torch import nn
 import torch.optim as optim
 from torch.utils.data import random_split, DataLoader, TensorDataset
 import os
-import requests
 import time
 import json
 from util import pricing_util as pu
@@ -36,7 +35,11 @@ class HousingModel(nn.Module):
 def main():
     choice = input("Train or run model? (\"t\" / \"r\"): ").strip().lower()
     if choice == "t":
-        data = pu.load_data("cleaned_df.csv")
+        try:
+            data = pu.load_data("cleaned_df.csv")
+        except FileNotFoundError:
+            print("Error: cleaned_df.csv not found in the data directory.\nThis file is excluded from the github to reduce size.")
+            return
         X, Y, stats = pu.preprocess_training_data(data)
         dataset = TensorDataset(X, Y)
 
