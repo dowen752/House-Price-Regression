@@ -3,8 +3,8 @@
 Simple model to predict housing prices using from latitude, longitude, lot area, number of bedrooms, number of bathrooms,
 along with derived features like floorplan density and distance to the nearest metropolitan area. Built using pytorch,
 data cleaned and prepped using pandas, numpy. The model is currently at a log-price R^2 value of 0.637 (i.e, my model 
-reduces prediction error variance by 64% over using the mean price to predict). My RMSE is ~$400k, which is high, but 
-I expected for a model of this simplicity.
+reduces prediction error variance by 64%, compared to just using the mean price to predict). My RMSE is ~$400k, which 
+is high, but is something I expected for a model of this simplicity.
 
 The goal of this project was to create an accurate predictor of housing prices based solely on GPS coordinates.
 I quickly expanded this idea, as coordinates alone was undermining the potential of the model. I also need to
